@@ -149,6 +149,7 @@ def create_address(db: Session, address: schemas.Address, current_user: schemas.
 def get_address(db: Session, current_user: schemas.ReadUser, radius, latitude, longitude):
     try:
         query_set = db.query(models.AddressBook).filter(models.AddressBook.user_id == current_user.id).all()
+        # creates the new list of address within the input radius.
         new_query_set = [x for x in query_set if geodesic((x.latitude, x.longitude), (latitude, longitude)) <= radius]
         return new_query_set
     except Exception as e:
